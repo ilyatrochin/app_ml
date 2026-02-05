@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запись операций в Google Sheets</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<div class="container">
+    <h1>Новая операция</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="messages">
+        {% for category, message in messages %}
+        <div class="message {{ category }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <form action="{{ url_for('submit') }}" method="post">
+        <label>
+            Дата
+            <input type="date" name="Дата" value="{{ today }}" required>
+        </label>
+
+        <label>
+            Расчетные центры
+            <select name="Расчетные центры" required>
+                <option value="">Выберите значение</option>
+                {% for item in dropdowns['Расчетные центры'] %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            Раздел ДДС
+            <select name="Раздел ДДС" required>
+                <option value="">Выберите значение</option>
+                {% for item in dropdowns['Раздел ДДС'] %}
+                <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+            </select>
+        </label>
+
+        <label>
+            Дата Затраты (ОПУ)
+            <input type="date" name="Дата Затраты (ОПУ)" required>
+        </label>
+
+        <label>
+            Стоимость
+            <input type="number" name="Стоимость" step="0.01" min="0" required>
+        </label>
+
+        <label>
+            Контрагент
+            <input type="text" name="Контрагент" required>
+        </label>
+
+        <label>
+            За что платим
+            <textarea name="За что платим" rows="3" required></textarea>
+        </label>
+
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+</body>
+</html>
